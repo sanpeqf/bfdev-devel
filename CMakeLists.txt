@@ -47,7 +47,7 @@ string(APPEND BFDEV_RELEASE
 )
 
 option(BFDEV_DEVEL "Enable development mode" OFF)
-option(BFDEV_STRICT "Enable strict compilation" ON)
+option(BFDEV_STRICT "Enable strict compilation" OFF)
 option(BFDEV_EXAMPLES "Build examples" OFF)
 option(BFDEV_TESTSUITE "Build testsuite" OFF)
 
@@ -66,6 +66,7 @@ option(BFDEV_DEBUG_MEMALLOC "Dynamic debug memalloc" ON)
 option(BFDEV_CRC_EXTEND "CRC loop unfolding optimize" ON)
 
 if(BFDEV_DEVEL)
+    set(BFDEV_STRICT ON)
     set(BFDEV_EXAMPLES ON)
     set(BFDEV_TESTSUITE ON)
     set(BFDEV_ASAN ON)
