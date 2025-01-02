@@ -12,7 +12,8 @@
 #include <bfdev/radix.h>
 #include "../time.h"
 
-#define TEST_LOOP 10
+#define TEST_LOOP 3
+#define TEST_WARMUP 32
 #define TEST_SIZE 1000000
 
 static
@@ -52,6 +53,16 @@ main(int argc, const char *argv[])
         0;
     );
 
+    bfdev_log_notice("Warmup cache...\n");
+    for (loop = 0; loop < TEST_WARMUP; ++loop) {
+        for (count = 0; count < TEST_SIZE; ++count) {
+            if (!bfdev_radix_find(&root, count)) {
+                bfdev_log_err("Warmup cache failed!\n");
+                return 1;
+            }
+        }
+    }
+
     for (loop = 0; loop < TEST_LOOP; ++loop) {
         bfdev_log_info("Find nodes loop%u...\n", loop);
         EXAMPLE_TIME_STATISTICAL(
@@ -66,6 +77,35 @@ main(int argc, const char *argv[])
             0;
         );
     }
+
+    bfdev_log_info("For each nodes:\n");
+    EXAMPLE_TIME_STATISTICAL(
+        uintptr_t index;
+        void *value;
+
+        count = 0;
+        bfdev_radix_for_each(value, &root, &index) {
+            if (count++ != index) {
+                bfdev_log_info("Index verification failed!\n");
+                return 1;
+            }
+
+            if (*(unsigned int *)value != data[index]) {
+                bfdev_log_info("Data verification failed!\n");
+                return 1;
+            }
+        }
+
+        if (count != TEST_SIZE) {
+            bfdev_log_info("Index size error!\n");
+            return 1;
+        }
+
+        0;
+    );
+
+    count = root.tree.level;
+    bfdev_log_info("\tradix level: %u\n", count);
 
     bfdev_log_info("Free nodes:\n");
     EXAMPLE_TIME_STATISTICAL(
