@@ -73,15 +73,15 @@ test_memalloc(bfdev_memalloc_head_t *pool)
 
     node = bfdev_list_first_entry(&pool->block_list, bfdev_memalloc_chunk_t, block);
     if (node->usize != POOL_SIZE - sizeof(bfdev_memalloc_chunk_t)) {
-        bfdev_log_err("free node size leak %#lx -> %#lx\n", POOL_SIZE -
-                      sizeof(bfdev_memalloc_chunk_t), node->usize);
+        bfdev_log_err("free node size leak %#lx -> %#lx\n", (unsigned long)POOL_SIZE -
+                      sizeof(bfdev_memalloc_chunk_t), (unsigned long)node->usize);
         retval = -BFDEV_EFAULT;
         goto failed;
     }
 
     if (pool->avail != POOL_SIZE - sizeof(bfdev_memalloc_chunk_t)) {
-        bfdev_log_err("total available leak %#lx -> %#lx\n", POOL_SIZE -
-                      sizeof(bfdev_memalloc_chunk_t), pool->avail);
+        bfdev_log_err("total available leak %#lx -> %#lx\n", (unsigned long)POOL_SIZE -
+                      sizeof(bfdev_memalloc_chunk_t), (unsigned long)pool->avail);
         retval = -BFDEV_EFAULT;
         goto failed;
     }
