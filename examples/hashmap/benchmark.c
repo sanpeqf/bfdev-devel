@@ -12,7 +12,8 @@
 #include <bfdev/hashmap.h>
 #include "../time.h"
 
-#define TEST_LOOP 10
+#define TEST_LOOP 3
+#define TEST_WARMUP 32
 #define TEST_SIZE 1000000
 
 struct test_node {
@@ -100,6 +101,16 @@ main(int argc, const char *argv[])
         }
         0;
     );
+
+    bfdev_log_notice("Warmup cache...\n");
+    for (loop = 0; loop < TEST_WARMUP; ++loop) {
+        for (count = 0; count < TEST_SIZE; ++count) {
+            value = nodes[count].value;
+            hnode = bfdev_hashmap_find(&test_map, (void *)value);
+            if (!hnode)
+                return 1;
+        }
+    }
 
     for (loop = 0; loop < TEST_LOOP; ++loop) {
         bfdev_log_info("Find nodes loop%u...\n", loop);
