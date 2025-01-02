@@ -4,7 +4,7 @@
 #
 
 add_executable(circle-atomic atomic.c)
-target_link_libraries(circle-atomic bfdev)
+target_link_libraries(circle-atomic bfdev pthread)
 add_test(circle-atomic circle-atomic)
 
 if(${CMAKE_PROJECT_NAME} STREQUAL "bfdev")
