@@ -89,14 +89,11 @@ main(int argc, const char *argv[])
     srand(time(NULL));
     bfdev_log_info("Generate %u node:\n", TEST_SIZE);
     for (count = 0; count < TEST_SIZE; ++count)
-        nodes[count].value = ((uint64_t)rand() << 32) | rand();
+        nodes[count].value = count;
 
     bfdev_log_info("Insert nodes:\n");
     EXAMPLE_TIME_STATISTICAL(
         for (count = 0; count < TEST_SIZE; ++count) {
-            value = ((uint64_t)rand() << 32) | rand();
-            nodes[count].value = value;
-
             retval = bfdev_hashmap_add(&test_map, &nodes[count].node);
             if (retval)
                 return retval;
