@@ -402,15 +402,16 @@ bfdev_radix_root_next(bfdev_radix_root_t *root, uintptr_t *offsetp)
         node = parents[level].node;
         index = parents[level].index;
 
+        count = radix_depth_shift(level - 1);
+        *offsetp &= ~((uintptr_t)RADIX_ARY_MASK << count);
+
         while (++index < BFDEV_RADIX_ARY) {
             if (!node->child[index])
                 continue;
 
-            count = radix_depth_shift(level - 1);
-            *offsetp &= ~((uintptr_t)RADIX_ARY_MASK << count);
             *offsetp |= (uintptr_t)index << count;
-
             node = node->child[index];
+
             goto downward;
         }
     }
@@ -457,15 +458,16 @@ bfdev_radix_root_prev(bfdev_radix_root_t *root, uintptr_t *offsetp)
         node = parents[level].node;
         index = parents[level].index;
 
+        count = radix_depth_shift(level - 1);
+        *offsetp &= ~((uintptr_t)RADIX_ARY_MASK << count);
+
         while (index--) {
             if (!node->child[index])
                 continue;
 
-            count = radix_depth_shift(level - 1);
-            *offsetp &= ~((uintptr_t)RADIX_ARY_MASK << count);
             *offsetp |= (uintptr_t)index << count;
-
             node = node->child[index];
+
             goto downward;
         }
     }
