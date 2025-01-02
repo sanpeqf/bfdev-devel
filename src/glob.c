@@ -14,7 +14,10 @@ bfdev_glob(const char *patten, const char *string)
     char ptch, stch, tcha, tchb;
     bool match, inverted;
 
-    for (bpatten = NULL;;) {
+    bpatten = NULL;
+    bstring = NULL;
+
+    for (;;) {
         ptch = *patten++;
         stch = *string++;
 
