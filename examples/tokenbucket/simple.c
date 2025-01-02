@@ -19,7 +19,8 @@ current_msec(void)
 
     BFDEV_BUG_ON(clock_gettime(CLOCK_REALTIME, &ts));
 
-    return ts.tv_sec * 1000 + ts.tv_nsec / 1000000;
+    return (bfdev_time_t)ts.tv_sec * 1000 +
+        ts.tv_nsec / 1000000;
 }
 
 int

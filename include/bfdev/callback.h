@@ -10,9 +10,14 @@
 
 BFDEV_BEGIN_DECLS
 
-extern void bfdev_cbfunc_noop(void);
-extern long bfdev_cbfunc_ret0(void);
-extern long bfdev_cbfunc_ret1(void);
+extern void
+bfdev_cbfunc_noop(void);
+
+extern long
+bfdev_cbfunc_ret0(void);
+
+extern long
+bfdev_cbfunc_ret1(void);
 
 #define bfdev_dummy_noop ((void *)bfdev_cbfunc_noop)
 #define bfdev_dummy_ret0 ((void *)bfdev_cbfunc_ret0)
