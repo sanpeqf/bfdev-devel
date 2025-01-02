@@ -22,6 +22,7 @@ set(BFDEV_SOURCE
     ${CMAKE_CURRENT_LIST_DIR}/errname.c
     ${CMAKE_CURRENT_LIST_DIR}/fifo.c
     ${CMAKE_CURRENT_LIST_DIR}/fsm.c
+    ${CMAKE_CURRENT_LIST_DIR}/glob.c
     ${CMAKE_CURRENT_LIST_DIR}/hashmap.c
     ${CMAKE_CURRENT_LIST_DIR}/heap.c
     ${CMAKE_CURRENT_LIST_DIR}/ilist.c
