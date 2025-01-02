@@ -542,8 +542,7 @@ bfdev_rb_replace(bfdev_rb_root_t *root, bfdev_rb_node_t *oldn,
 }
 
 export bfdev_rb_node_t *
-bfdev_rb_find(const bfdev_rb_root_t *root, void *key,
-              bfdev_rb_find_t find)
+bfdev_rb_find(const bfdev_rb_root_t *root, void *key, bfdev_rb_find_t find)
 {
     bfdev_rb_node_t *node;
     long retval;
