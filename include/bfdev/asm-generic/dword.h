@@ -35,29 +35,29 @@ BFDEV_BEGIN_DECLS
     __bl = (bl);                                        \
                                                         \
     __x = __al + __bl;                                  \
-    (sh) = __ah + __bh + (__x < __al);                  \
-    (sl) = __x;                                         \
+    *(sh) = __ah + __bh + (__x < __al);                 \
+    *(sl) = __x;                                        \
 } while (0)
 #endif
 
-#ifndef bfdev_sub_ddmmss
-# define bfdev_sub_ddmmss(sh, sl, ah, al, bh, bl) do {  \
-    bfdev_uw_t __ah, __al, __bh, __bl;                  \
-    bfdev_uw_t __x;                                     \
-                                                        \
-    __ah = (ah);                                        \
-    __al = (al);                                        \
-    __bh = (bh);                                        \
-    __bl = (bl);                                        \
-                                                        \
-    __x = __al - __bl;                                  \
-    (sh) = __ah - __bh - (__x > __al);                  \
-    (sl) = __x;                                         \
+#ifndef bfdev_dword_sub_ddmmss
+# define bfdev_dword_sub_ddmmss(sh, sl, ah, al, bh, bl) do {    \
+    bfdev_uw_t __ah, __al, __bh, __bl;                          \
+    bfdev_uw_t __x;                                             \
+                                                                \
+    __ah = (ah);                                                \
+    __al = (al);                                                \
+    __bh = (bh);                                                \
+    __bl = (bl);                                                \
+                                                                \
+    __x = __al - __bl;                                          \
+    *(sh) = __ah - __bh - (__x > __al);                         \
+    *(sl) = __x;                                                \
 } while (0)
 #endif
 
-#ifndef bfdev_umul_ppmm
-# define bfdev_umul_ppmm(dh, dl, va, vb) do {               \
+#ifndef bfdev_dword_umul_ppmm
+# define bfdev_dword_umul_ppmm(dh, dl, va, vb) do {         \
     bfdev_uhw_t __ul, __vl, __uh, __vh;                     \
     bfdev_uw_t __x0, __x1, __x2, __x3;                      \
     bfdev_uw_t __va, __vb;                                  \
@@ -81,28 +81,28 @@ BFDEV_BEGIN_DECLS
         __x3 += BFDEV_DWORD_SIZE;                           \
                                                             \
     __x2 = BFDEV_DWORD_LOWER(__x1) << BFDEV_DWORD_BITS;     \
-    (dh) = __x3 + BFDEV_DWORD_HIGHER(__x1);                 \
-    (dl) = __x2 + BFDEV_DWORD_LOWER(__x0);                  \
+    *(dh) = __x3 + BFDEV_DWORD_HIGHER(__x1);                \
+    *(dl) = __x2 + BFDEV_DWORD_LOWER(__x0);                 \
 } while (0)
 #endif
 
-#ifndef bfdev_udiv_qrnnd
-# define bfdev_udiv_qrnnd(quot, rem, sh, sl, div) do {          \
+#ifndef bfdev_dword_udiv_qrnnd
+# define bfdev_dword_udiv_qrnnd(quot, rem, vh, vl, div) do {    \
     bfdev_uw_t __d1, __d0, __q1, __q0;                          \
     bfdev_uw_t __r1, __r0, __m;                                 \
-    bfdev_uw_t __sh, __sl, __div;                               \
+    bfdev_uw_t __vh, __vl, __div;                               \
                                                                 \
-    __sh = (sh);                                                \
-    __sl = (sl);                                                \
+    __vh = (vh);                                                \
+    __vl = (vl);                                                \
     __div = (div);                                              \
                                                                 \
     __d1 = BFDEV_DWORD_HIGHER(__div);                           \
     __d0 = BFDEV_DWORD_LOWER(__div);                            \
                                                                 \
-    __r1 = __sh % __d1;                                         \
-    __q1 = __sh / __d1;                                         \
+    __r1 = __vh % __d1;                                         \
+    __q1 = __vh / __d1;                                         \
     __m = (bfdev_uw_t)__q1 * __d0;                              \
-    __r1 = __r1 * BFDEV_DWORD_SIZE | BFDEV_DWORD_HIGHER(__sl);  \
+    __r1 = __r1 * BFDEV_DWORD_SIZE | BFDEV_DWORD_HIGHER(__vl);  \
                                                                 \
     if (__r1 < __m) {                                           \
         __q1--;                                                 \
@@ -120,7 +120,7 @@ BFDEV_BEGIN_DECLS
     __r0 = __r1 % __d1;                                         \
     __q0 = __r1 / __d1;                                         \
     __m = (bfdev_uw_t)__q0 * __d0;                              \
-    __r0 = __r0 * BFDEV_DWORD_SIZE | BFDEV_DWORD_LOWER(__sl);   \
+    __r0 = __r0 * BFDEV_DWORD_SIZE | BFDEV_DWORD_LOWER(__vl);   \
                                                                 \
     if (__r0 < __m) {                                           \
         __q0--;                                                 \
@@ -135,8 +135,8 @@ BFDEV_BEGIN_DECLS
     }                                                           \
                                                                 \
     __r0 -= __m;                                                \
-    (quot) = (bfdev_uw_t)__q1 * BFDEV_DWORD_SIZE | __q0;        \
-    (rem) = __r0;                                               \
+    *(quot) = (bfdev_uw_t)__q1 * BFDEV_DWORD_SIZE | __q0;       \
+    *(rem) = __r0;                                              \
 } while (0)
 #endif
 

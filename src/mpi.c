@@ -179,7 +179,7 @@ mpa_muli(BFDEV_MPI_TYPE *ptrs,
     BFDEV_MPI_TYPE vhigh, vlow;
 
     while (length--) {
-        bfdev_umul_ppmm(vhigh, vlow, *ptra++, vi);
+        bfdev_dword_umul_ppmm(&vhigh, &vlow, *ptra++, vi);
         vlow += carry;
         carry = (vlow < carry) + vhigh;
         *ptrs++ = vlow;
@@ -196,7 +196,7 @@ mpa_maci(BFDEV_MPI_TYPE *ptrs,
     BFDEV_MPI_TYPE vhigh, vlow;
 
     while (length--) {
-        bfdev_umul_ppmm(vhigh, vlow, *ptra++, vi);
+        bfdev_dword_umul_ppmm(&vhigh, &vlow, *ptra++, vi);
         vlow += carry;
         carry = (vlow < carry) + vhigh;
 
@@ -216,7 +216,7 @@ mpa_msui(BFDEV_MPI_TYPE *ptrs,
     BFDEV_MPI_TYPE vhigh, vlow;
 
     while (length--) {
-        bfdev_umul_ppmm(vhigh, vlow, *ptra++, vi);
+        bfdev_dword_umul_ppmm(&vhigh, &vlow, *ptra++, vi);
         vlow += carry;
         carry = (vlow < carry) + vhigh;
 
@@ -384,7 +384,7 @@ mpa_divrem(BFDEV_MPI_TYPE *ptrs,
             bfdev_dword_udiv(result, &rem, dword, dhigh);
 
             quot = result[0];
-            bfdev_umul_ppmm(v1, value, dlow, quot);
+            bfdev_dword_umul_ppmm(&v1, &value, dlow, quot);
 
             while (v1 > rem || (v1 == rem && value > ptra[cntb - 2])) {
                 quot--;
