@@ -212,7 +212,7 @@ main(int argc, char *const argv[])
 {
     unsigned int loops, count;
     int retval, optidx;
-    char arg;
+    int arg;
 
     setbuf(stdout, NULL);
     setbuf(stderr, NULL);
