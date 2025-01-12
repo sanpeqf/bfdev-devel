@@ -60,6 +60,16 @@ skipnode_find(bfdev_skip_head_t *head, bfdev_find_t find,
     return NULL;
 }
 
+export bfdev_skip_node_t *
+bfdev_skiplist_find(bfdev_skip_head_t *head, bfdev_find_t find, void *pdata)
+{
+    bfdev_skip_node_t *node;
+
+    node = skipnode_find(head, find, pdata, NULL);
+
+    return node;
+}
+
 export int
 bfdev_skiplist_insert(bfdev_skip_head_t *head, void *key, bfdev_cmp_t cmp,
                       void *pdata)
@@ -100,7 +110,7 @@ bfdev_skiplist_insert(bfdev_skip_head_t *head, void *key, bfdev_cmp_t cmp,
     return 0;
 }
 
-export void
+export int
 bfdev_skiplist_delete(bfdev_skip_head_t *head, bfdev_find_t find, void *pdata)
 {
     const bfdev_alloc_t *alloc;
@@ -110,7 +120,7 @@ bfdev_skiplist_delete(bfdev_skip_head_t *head, bfdev_find_t find, void *pdata)
     alloc = head->alloc;
     node = skipnode_find(head, find, pdata, &level);
     if (bfdev_unlikely(!node))
-        return;
+        return -BFDEV_ENOENT;
 
     while (level--) {
         bfdev_list_del(&node->list[level]);
@@ -119,15 +129,8 @@ bfdev_skiplist_delete(bfdev_skip_head_t *head, bfdev_find_t find, void *pdata)
     }
 
     bfdev_free(alloc, node);
-}
 
-export bfdev_skip_node_t *
-bfdev_skiplist_find(bfdev_skip_head_t *head,
-                    bfdev_find_t find, void *pdata)
-{
-    bfdev_skip_node_t *node;
-    node = skipnode_find(head, find, pdata, NULL);
-    return node;
+    return -BFDEV_ENOERR;
 }
 
 static void
