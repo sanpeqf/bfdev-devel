@@ -38,6 +38,79 @@ BFDEV_BEGIN_DECLS
     (x) & ~bfdev_round_mask(x, y) \
 )
 
+#define bfdev_abs_expr(var, type, other) __builtin_choose_expr( \
+    __builtin_types_compatible_p(typeof(var), signed type) ||   \
+    __builtin_types_compatible_p(typeof(var), unsigned type),   \
+    ({                                                          \
+        signed type __var;                                      \
+        __var = (signed type)(var);                             \
+        __var < 0 ? - __var : __var;                            \
+    }), other                                                   \
+)
+
+/**
+ * bfdev_abs - return absolute value of an argument.
+ *
+ * If it is unsigned type, it is converted to signed type first.
+ * char is treated as if it was signed but the macro's
+ * return type is preserved as char.
+ */
+#define bfdev_abs(var)                          \
+    bfdev_abs_expr(var, long long,              \
+    bfdev_abs_expr(var, long,                   \
+    bfdev_abs_expr(var, int,                    \
+    bfdev_abs_expr(var, short,                  \
+    bfdev_abs_expr(var, char,                   \
+        __builtin_choose_expr(                  \
+        __builtin_types_compatible_p(           \
+            typeof(var), char),                 \
+            (char) ({                           \
+                signed char __var;              \
+                __var = (signed char)(var);     \
+                __var < 0 ? - __var : __var;    \
+            }),                                 \
+            ((void)0)                           \
+        )                                       \
+    ))))                                        \
+)
+
+/**
+ * bfdev_abs_diff - return absolute value of the difference between the args.
+ * @var1: the first argument.
+ * @var2: the second argument.
+ */
+#define bfdev_abs_diff(var1, var2) ({   \
+	typeof(var1) __var1, __var2;        \
+                                        \
+    __var1 = (typeof(var1))(var1);      \
+    __var2 = (typeof(var1))(var2);      \
+                                        \
+	__var1 > __var2                     \
+        ? (__var1 - __var2)             \
+        : (__var2 - __var1);	        \
+})
+
+/**
+ * BFDEV_MULT_FRAC
+ *
+ * Calculate "value * numer / denom"
+ * without unnecessary overflow or loss of precision.
+ */
+#define BFDEV_MULT_FRAC(value, numer, denom) ({ \
+    typeof(value) __value, __numer, __denom;    \
+    typeof(value) __quot, __rem;                \
+                                                \
+    __value = (typeof(value))(value);           \
+    __numer = (typeof(value))(numer);           \
+    __denom = (typeof(value))(denom);           \
+                                                \
+    __quot = (__value) / (__denom);             \
+    __rem = (__value) % (__denom);              \
+                                                \
+    (__quot * (__numer)) +                      \
+        ((__rem * (__numer)) / (__denom));      \
+})
+
 /**
  * BFDEV_DIV_ROUND_UP - round up division.
  * @n: divisor number.
