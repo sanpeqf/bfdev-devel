@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: GPL-2.0-or-later */
+/* SPDX-License-Identifier: LGPL-3.0-or-later */
 /*
  * Copyright(c) 2023 John Sanpe <sanpeqf@gmail.com>
  */
@@ -29,26 +29,55 @@ struct bfdev_skip_head {
     bfdev_list_head_t nodes[0];
 };
 
-extern int
-bfdev_skiplist_insert(bfdev_skip_head_t *head, void *key, bfdev_cmp_t cmp,
-                      void *pdata);
-
-extern void
-bfdev_skiplist_delete(bfdev_skip_head_t *head, bfdev_find_t find, void *pdata);
-
+/**
+ * bfdev_skiplist_find - find a node in the skiplist.
+ * @head: the skiplist head to find in.
+ * @find: the find function for this skiplist.
+ * @pdata: the private data for @find.
+ */
 extern bfdev_skip_node_t *
 bfdev_skiplist_find(bfdev_skip_head_t *head, bfdev_find_t find, void *pdata);
 
-extern void
-bfdev_skiplist_reset(bfdev_skip_head_t *head, bfdev_release_t release,
-                     void *pdata);
+/**
+ * bfdev_skiplist_insert - insert a node into the skiplist.
+ * @head: the skiplist head to insert into.
+ * @key: the key for this skiplist.
+ * @cmp: the compare function for this skiplist.
+ * @pdata: the private data for @cmp.
+ */
+extern int
+bfdev_skiplist_insert(bfdev_skip_head_t *head, void *key,
+                      bfdev_cmp_t cmp, void *pdata);
 
+/**
+ * bfdev_skiplist_delete - delete a node from the skiplist.
+ * @head: the skiplist head to delete from.
+ * @find: the find function for this skiplist.
+ * @pdata: the private data for @find.
+ */
+extern int
+bfdev_skiplist_delete(bfdev_skip_head_t *head, bfdev_find_t find, void *pdata);
+
+/**
+ * bfdev_skiplist_reset - reset all nodes in a skiplist.
+ * @head: the skiplist head to reset.
+ * @release: the function to release each node.
+ * @pdata: the private data for @release.
+ */
+extern void
+bfdev_skiplist_reset(bfdev_skip_head_t *head,
+                     bfdev_release_t release, void *pdata);
+/**
+ * bfdev_skiplist_create - create a skiplist header.
+ * @alloc: the allocator for this skiplist.
+ * @levels: the levels for this skiplist.
+ */
 extern bfdev_skip_head_t *
 bfdev_skiplist_create(const bfdev_alloc_t *alloc, unsigned int levels);
 
 extern void
-bfdev_skiplist_destroy(bfdev_skip_head_t *head, bfdev_release_t release,
-                       void *pdata);
+bfdev_skiplist_destroy(bfdev_skip_head_t *head,
+                       bfdev_release_t release, void *pdata);
 
 /**
  * bfdev_skiplist_for_each - iterate over list of given type.

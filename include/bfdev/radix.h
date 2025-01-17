@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: GPL-2.0-or-later */
+/* SPDX-License-Identifier: LGPL-3.0-or-later */
 /*
  * Copyright(c) 2023 John Sanpe <sanpeqf@gmail.com>
  */
@@ -57,11 +57,14 @@ struct bfdev_radix_node {
     .tree = {.alloc = (ALLOC)}, \
 }
 
-#define BFDEV_RADIX_INIT(name, alloc) \
-    (typeof(name)) BFDEV_RADIX_STATIC(alloc)
+#define BFDEV_RADIX_INIT(root, alloc) \
+    (typeof(*root)) BFDEV_RADIX_STATIC(alloc)
 
-#define BFDEV_RADIX_ROOT(name, type, alloc) \
-    BFDEV_GENERIC_RADIX(type) name = BFDEV_RADIX_INIT(name, alloc)
+#define BFDEV_DECLARE_RADIX(name, type) \
+    BFDEV_GENERIC_RADIX(type) name
+
+#define BFDEV_DEFINE_RADIX(name, type, alloc) \
+    BFDEV_DECLARE_RADIX(name, type) = BFDEV_RADIX_INIT(&name, alloc)
 
 static inline uintptr_t
 bfdev_radix_offset(uintptr_t index, size_t cells)

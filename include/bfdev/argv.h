@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: GPL-2.0-or-later */
+/* SPDX-License-Identifier: LGPL-3.0-or-later */
 /*
  * Copyright(c) 2023 John Sanpe <sanpeqf@gmail.com>
  */
@@ -25,12 +25,12 @@ bfdev_argv_split(const bfdev_alloc_t *alloc, const char *string,
                  unsigned int *argcp);
 
 /**
- * bfdev_argv_destory() - destory an argv.
+ * bfdev_argv_destroy() - destroy an argv.
  * @alloc: the allocator used to free memory.
  * @argv: the argument vector to be freed.
  */
 extern void
-bfdev_argv_destory(const bfdev_alloc_t *alloc, char **argv);
+bfdev_argv_destroy(const bfdev_alloc_t *alloc, char **argv);
 
 BFDEV_END_DECLS
 

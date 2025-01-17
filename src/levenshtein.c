@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: GPL-2.0-or-later */
+/* SPDX-License-Identifier: LGPL-3.0-or-later */
 /*
  * Copyright(c) 2023 John Sanpe <sanpeqf@gmail.com>
  */
@@ -9,10 +9,8 @@
 
 export unsigned int
 bfdev_levenshtein_len(const bfdev_alloc_t *alloc,
-                      const char *str1, const char *str2,
-                      size_t len1, size_t len2,
-                      unsigned int s, unsigned int w,
-                      unsigned int a, unsigned int d)
+    const char *str1, const char *str2, size_t len1, size_t len2,
+    unsigned int s, unsigned int w, unsigned int a, unsigned int d)
 {
     unsigned int *row1, *row2, *row3;
     unsigned int distance, *cache;
@@ -68,9 +66,8 @@ bfdev_levenshtein_len(const bfdev_alloc_t *alloc,
 
 export unsigned int
 bfdev_levenshtein(const bfdev_alloc_t *alloc,
-                  const char *str1, const char *str2,
-                  unsigned int s, unsigned int w,
-                  unsigned int a, unsigned int d)
+    const char *str1, const char *str2,
+    unsigned int s, unsigned int w, unsigned int a, unsigned int d)
 {
     size_t len1, len2;
 

@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: GPL-2.0-or-later */
+/* SPDX-License-Identifier: LGPL-3.0-or-later */
 /*
  * Copyright(c) 2022 John Sanpe <sanpeqf@gmail.com>
  */
@@ -39,7 +39,7 @@ lfu_compare(const bfdev_heap_node_t *node1,
     if (lfu1->count == lfu2->count)
         return 0;
 
-    return lfu1->count < lfu2->count ? -1 : 1;
+    return bfdev_cmp(lfu1->count > lfu2->count);
 }
 
 static bool

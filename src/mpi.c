@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: GPL-2.0-or-later */
+/* SPDX-License-Identifier: LGPL-3.0-or-later */
 /*
  * Copyright(c) 2024 John Sanpe <sanpeqf@gmail.com>
  */
@@ -10,7 +10,6 @@
 #include <bfdev/mpi.h>
 #include <bfdev/dword.h>
 #include <bfdev/bitmap.h>
-#include <bfdev/bug.h>
 #include <export.h>
 
 #define mpi_len(mpi) bfdev_array_index(&(mpi)->value)
@@ -180,7 +179,7 @@ mpa_muli(BFDEV_MPI_TYPE *ptrs,
     BFDEV_MPI_TYPE vhigh, vlow;
 
     while (length--) {
-        bfdev_umul_ppmm(vhigh, vlow, *ptra++, vi);
+        bfdev_dword_umul_ppmm(&vhigh, &vlow, *ptra++, vi);
         vlow += carry;
         carry = (vlow < carry) + vhigh;
         *ptrs++ = vlow;
@@ -197,7 +196,7 @@ mpa_maci(BFDEV_MPI_TYPE *ptrs,
     BFDEV_MPI_TYPE vhigh, vlow;
 
     while (length--) {
-        bfdev_umul_ppmm(vhigh, vlow, *ptra++, vi);
+        bfdev_dword_umul_ppmm(&vhigh, &vlow, *ptra++, vi);
         vlow += carry;
         carry = (vlow < carry) + vhigh;
 
@@ -217,7 +216,7 @@ mpa_msui(BFDEV_MPI_TYPE *ptrs,
     BFDEV_MPI_TYPE vhigh, vlow;
 
     while (length--) {
-        bfdev_umul_ppmm(vhigh, vlow, *ptra++, vi);
+        bfdev_dword_umul_ppmm(&vhigh, &vlow, *ptra++, vi);
         vlow += carry;
         carry = (vlow < carry) + vhigh;
 
@@ -385,7 +384,7 @@ mpa_divrem(BFDEV_MPI_TYPE *ptrs,
             bfdev_dword_udiv(result, &rem, dword, dhigh);
 
             quot = result[0];
-            bfdev_umul_ppmm(v1, value, dlow, quot);
+            bfdev_dword_umul_ppmm(&v1, &value, dlow, quot);
 
             while (v1 > rem || (v1 == rem && value > ptra[cntb - 2])) {
                 quot--;
