@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: GPL-2.0-or-later */
+/* SPDX-License-Identifier: LGPL-3.0-or-later */
 /*
  * Copyright(c) 2023 John Sanpe <sanpeqf@gmail.com>
  */
@@ -542,8 +542,7 @@ bfdev_rb_replace(bfdev_rb_root_t *root, bfdev_rb_node_t *oldn,
 }
 
 export bfdev_rb_node_t *
-bfdev_rb_find(const bfdev_rb_root_t *root, void *key,
-              bfdev_rb_find_t find)
+bfdev_rb_find(const bfdev_rb_root_t *root, void *key, bfdev_rb_find_t find)
 {
     bfdev_rb_node_t *node;
     long retval;

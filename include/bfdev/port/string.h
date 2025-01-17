@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: GPL-2.0-or-later */
+/* SPDX-License-Identifier: LGPL-3.0-or-later */
 /*
  * Copyright(c) 2023 John Sanpe <sanpeqf@gmail.com>
  */
@@ -31,6 +31,15 @@ static __bfdev_always_inline void *
 bfport_memset(void *s, int c, size_t n)
 {
     return memset(s, c, n);
+}
+#endif
+
+#ifndef bfport_memcmp
+# define bfport_memcmp bfport_memcmp
+static __bfdev_always_inline int
+bfport_memcmp(const void *s1, const void *s2, size_t n)
+{
+    return memcmp(s1, s2, n);
 }
 #endif
 

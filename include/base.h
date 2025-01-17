@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: GPL-2.0-or-later */
+/* SPDX-License-Identifier: LGPL-3.0-or-later */
 /*
  * Copyright(c) 2023 John Sanpe <sanpeqf@gmail.com>
  */
@@ -27,5 +27,6 @@
 #include <bfdev/minmax.h>
 #include <bfdev/string.h>
 #include <bfdev/stringify.h>
+#include <bfdev/bug.h>
 
 #endif /* _LOCAL_BASE_H_ */

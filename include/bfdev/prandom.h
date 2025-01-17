@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: GPL-2.0-or-later */
+/* SPDX-License-Identifier: LGPL-3.0-or-later */
 /*
  * Copyright(c) 2023 John Sanpe <sanpeqf@gmail.com>
  */
@@ -15,6 +15,10 @@ BFDEV_BEGIN_DECLS
 
 #ifndef BFDEV_PRANDOM_SEED
 # define BFDEV_PRANDOM_SEED 0x408c3c09UL
+#endif
+
+#ifndef BFDEV_PRANDOM_WARMUP
+# define BFDEV_PRANDOM_WARMUP 10
 #endif
 
 typedef struct bfdev_prandom bfdev_prandom_t;

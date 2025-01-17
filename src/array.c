@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: GPL-2.0-or-later */
+/* SPDX-License-Identifier: LGPL-3.0-or-later */
 /*
  * Copyright(c) 2023 ffashion <helloworldffashion@gmail.com>
  * Copyright(c) 2023 John Sanpe <sanpeqf@gmail.com>
@@ -7,7 +7,6 @@
 #include <base.h>
 #include <bfdev/array.h>
 #include <bfdev/overflow.h>
-#include <bfdev/bug.h>
 #include <export.h>
 
 static inline size_t

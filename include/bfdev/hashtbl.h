@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: GPL-2.0-or-later */
+/* SPDX-License-Identifier: LGPL-3.0-or-later */
 /*
  * Copyright(c) 2023 John Sanpe <sanpeqf@gmail.com>
  */
@@ -32,7 +32,10 @@ BFDEV_BEGIN_DECLS
 static __bfdev_always_inline unsigned long
 bfdev_hashtbl_index(unsigned long size, unsigned long key)
 {
-    unsigned int bits = BFDEV_HASHTBL_BITS(size);
+    unsigned int bits;
+
+    bits = BFDEV_HASHTBL_BITS(size);
+
     return bfdev_hashl(key, bits);
 }
 
@@ -76,7 +79,10 @@ static inline void
 bfdev_hashtbl_add(bfdev_hlist_head_t *head, unsigned long size,
                   bfdev_hlist_node_t *node, unsigned long key)
 {
-    unsigned long index = bfdev_hashtbl_index(size, key);
+    unsigned long index;
+
+    index = bfdev_hashtbl_index(size, key);
+
     bfdev_hlist_head_add(&head[index], node);
 }
 
@@ -101,7 +107,8 @@ bfdev_hashtbl_del(bfdev_hlist_node_t *node)
     bfdev_hlist_for_each(pos, &head[index & BFDEV_HASHTBL_MASK(size)])
 
 /**
- * bfdev_hashtbl_for_each_safe - iterate over a hashtable index safe against removal of hlist entry.
+ * bfdev_hashtbl_for_each_safe - iterate over a hashtable index safe against
+ * removal of hlist entry.
  * @pos: the &bfdev_hlist_node_t to use as a loop cursor.
  * @tmp: another bfdev_hlist_node to use as temporary storage.
  * @head: the head for your hashtable.
@@ -123,7 +130,8 @@ bfdev_hashtbl_del(bfdev_hlist_node_t *node)
     bfdev_hlist_for_each_entry(pos, &head[index & BFDEV_HASHTBL_MASK(size)], member)
 
 /**
- * bfdev_hashtbl_for_each_entry_safe - iterate over hashtable index of given type safe against removal of hlist entry.
+ * bfdev_hashtbl_for_each_entry_safe - iterate over hashtable index of given
+ * type safe against removal of hlist entry.
  * @pos: the type * to use as a loop cursor.
  * @tmp: another type * to use as temporary storage
  * @head: the head for your hashtable.
@@ -132,7 +140,8 @@ bfdev_hashtbl_del(bfdev_hlist_node_t *node)
  * @index: index to for each.
  */
 #define bfdev_hashtbl_for_each_idx_entry_safe(pos, tmp, head, size, member, index) \
-    bfdev_hlist_for_each_entry_safe(pos, tmp, &head[index & BFDEV_HASHTBL_MASK(size)], member)
+    bfdev_hlist_for_each_entry_safe(pos, tmp, \
+        &head[index & BFDEV_HASHTBL_MASK(size)], member)
 
 /**
  * bfdev_hashtbl_for_each - iterate over a hashtable.
@@ -146,7 +155,8 @@ bfdev_hashtbl_del(bfdev_hlist_node_t *node)
         bfdev_hashtbl_for_each_idx(pos, head, size, index)
 
 /**
- * bfdev_hashtbl_for_each_safe - iterate over a hashtable safe against removal of hlist entry.
+ * bfdev_hashtbl_for_each_safe - iterate over a hashtable safe against
+ * removal of hlist entry.
  * @pos: the &bfdev_hlist_node_t to use as a loop cursor.
  * @tmp: another bfdev_hlist_node to use as temporary storage.
  * @head: the head for your hashtable.
@@ -170,7 +180,8 @@ bfdev_hashtbl_del(bfdev_hlist_node_t *node)
         bfdev_hashtbl_for_each_idx_entry(pos, head, size, member, index)
 
 /**
- * bfdev_hashtbl_for_each_entry_safe - iterate over hashtable of given type safe against removal of hlist entry.
+ * bfdev_hashtbl_for_each_entry_safe - iterate over hashtable of given type
+ * safe against removal of hlist entry.
  * @pos: the type * to use as a loop cursor.
  * @tmp: another type * to use as temporary storage.
  * @head: the head for your hashtable.

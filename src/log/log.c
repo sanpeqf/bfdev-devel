@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: GPL-2.0-or-later */
+/* SPDX-License-Identifier: LGPL-3.0-or-later */
 /*
  * Copyright(c) 2023 John Sanpe <sanpeqf@gmail.com>
  */
@@ -6,7 +6,6 @@
 #include <base.h>
 #include <bfdev/log.h>
 #include <bfdev/scnprintf.h>
-#include <bfdev/bug.h>
 #include <export.h>
 
 export
@@ -110,6 +109,9 @@ log_emit(bfdev_log_t *log, unsigned int level, const char *fmt, va_list args)
     bfdev_log_message_t msg;
     int retval;
 
+    if (!log)
+        log = &bfdev_log_default;
+
     if (level >= BFDEV_LEVEL_DEFAULT)
         level = log->default_level;
 
@@ -142,7 +144,7 @@ log_emit(bfdev_log_t *log, unsigned int level, const char *fmt, va_list args)
 }
 
 export int
-bfdev_log_state_vprint(bfdev_log_t *log, const char *fmt, va_list args)
+bfdev_vlog_core(bfdev_log_t *log, const char *fmt, va_list args)
 {
     unsigned int level;
 
@@ -152,13 +154,13 @@ bfdev_log_state_vprint(bfdev_log_t *log, const char *fmt, va_list args)
 }
 
 export int
-bfdev_log_state_print(bfdev_log_t *log, const char *fmt, ...)
+bfdev_log_core(bfdev_log_t *log, const char *fmt, ...)
 {
     va_list para;
     int length;
 
     va_start(para, fmt);
-    length = bfdev_log_state_vprint(log, fmt, para);
+    length = bfdev_vlog_core(log, fmt, para);
     va_end(para);
 
     return length;

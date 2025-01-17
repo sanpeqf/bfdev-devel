@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-License-Identifier: LGPL-3.0-or-later
 #
 # Copyright(c) 2023 John Sanpe <sanpeqf@gmail.com>
 #
@@ -22,6 +22,7 @@ set(BFDEV_SOURCE
     ${CMAKE_CURRENT_LIST_DIR}/errname.c
     ${CMAKE_CURRENT_LIST_DIR}/fifo.c
     ${CMAKE_CURRENT_LIST_DIR}/fsm.c
+    ${CMAKE_CURRENT_LIST_DIR}/glob.c
     ${CMAKE_CURRENT_LIST_DIR}/hashmap.c
     ${CMAKE_CURRENT_LIST_DIR}/heap.c
     ${CMAKE_CURRENT_LIST_DIR}/ilist.c
@@ -36,6 +37,7 @@ set(BFDEV_SOURCE
     ${CMAKE_CURRENT_LIST_DIR}/popcount.c
     ${CMAKE_CURRENT_LIST_DIR}/prandom.c
     ${CMAKE_CURRENT_LIST_DIR}/radix.c
+    ${CMAKE_CURRENT_LIST_DIR}/ratelimit.c
     ${CMAKE_CURRENT_LIST_DIR}/rbtree.c
     ${CMAKE_CURRENT_LIST_DIR}/refcount.c
     ${CMAKE_CURRENT_LIST_DIR}/respool.c
@@ -45,6 +47,7 @@ set(BFDEV_SOURCE
     ${CMAKE_CURRENT_LIST_DIR}/skiplist.c
     ${CMAKE_CURRENT_LIST_DIR}/sort.c
     ${CMAKE_CURRENT_LIST_DIR}/stringhash.c
+    ${CMAKE_CURRENT_LIST_DIR}/tokenbucket.c
 )
 
 if(BFDEV_DEBUG_LIST)

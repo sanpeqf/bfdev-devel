@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: GPL-2.0-or-later */
+/* SPDX-License-Identifier: LGPL-3.0-or-later */
 /*
  * Copyright(c) 2023 John Sanpe <sanpeqf@gmail.com>
  */
@@ -6,7 +6,6 @@
 #include <base.h>
 #include <bfdev/radix.h>
 #include <bfdev/overflow.h>
-#include <bfdev/bug.h>
 #include <export.h>
 
 #define RADIX_BLOCK_MASK (BFDEV_RADIX_BLOCK - 1)
@@ -82,6 +81,10 @@ bfdev_radix_root_find(bfdev_radix_root_t *root, uintptr_t offset)
 
     node = parents[0].node;
     index = parents[0].index;
+
+    contain = bfdev_bit_test(node->bitmap, index);
+    if (bfdev_unlikely(!contain))
+        return NULL;
 
     return &node->block[index];
 }
@@ -241,7 +244,7 @@ bfdev_radix_root_charge(bfdev_radix_root_t *root,
 }
 
 static void
-radix_destory_recurse(const bfdev_alloc_t *alloc,
+radix_destroy_recurse(const bfdev_alloc_t *alloc,
                       bfdev_radix_node_t *node, unsigned int level)
 {
     bfdev_radix_node_t *child;
@@ -251,7 +254,7 @@ radix_destory_recurse(const bfdev_alloc_t *alloc,
         for (index = 0; index < BFDEV_RADIX_ARY; ++index) {
             child = node->child[index];
             if (child)
-                radix_destory_recurse(alloc, child, level - 1);
+                radix_destroy_recurse(alloc, child, level - 1);
         }
     }
 
@@ -264,7 +267,7 @@ bfdev_radix_root_release(bfdev_radix_root_t *root)
     const bfdev_alloc_t *alloc;
 
     alloc = root->alloc;
-    radix_destory_recurse(alloc, root->node, root->level);
+    radix_destroy_recurse(alloc, root->node, root->level);
 
     root->level = 0;
     root->node = NULL;
@@ -399,15 +402,16 @@ bfdev_radix_root_next(bfdev_radix_root_t *root, uintptr_t *offsetp)
         node = parents[level].node;
         index = parents[level].index;
 
+        count = radix_depth_shift(level - 1);
+        *offsetp &= ~((uintptr_t)RADIX_ARY_MASK << count);
+
         while (++index < BFDEV_RADIX_ARY) {
             if (!node->child[index])
                 continue;
 
-            count = radix_depth_shift(level - 1);
-            *offsetp &= ~((uintptr_t)RADIX_ARY_MASK << count);
             *offsetp |= (uintptr_t)index << count;
-
             node = node->child[index];
+
             goto downward;
         }
     }
@@ -454,15 +458,16 @@ bfdev_radix_root_prev(bfdev_radix_root_t *root, uintptr_t *offsetp)
         node = parents[level].node;
         index = parents[level].index;
 
+        count = radix_depth_shift(level - 1);
+        *offsetp &= ~((uintptr_t)RADIX_ARY_MASK << count);
+
         while (index--) {
             if (!node->child[index])
                 continue;
 
-            count = radix_depth_shift(level - 1);
-            *offsetp &= ~((uintptr_t)RADIX_ARY_MASK << count);
             *offsetp |= (uintptr_t)index << count;
-
             node = node->child[index];
+
             goto downward;
         }
     }

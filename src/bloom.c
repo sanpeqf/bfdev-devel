@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: GPL-2.0-or-later */
+/* SPDX-License-Identifier: LGPL-3.0-or-later */
 /*
  * Copyright(c) 2023 John Sanpe <sanpeqf@gmail.com>
  */
@@ -85,7 +85,7 @@ bfdev_bloom_create(const bfdev_alloc_t *alloc, unsigned int capacity,
 }
 
 export void
-bfdev_bloom_destory(bfdev_bloom_t *bloom)
+bfdev_bloom_destroy(bfdev_bloom_t *bloom)
 {
     const bfdev_alloc_t *alloc;
 
