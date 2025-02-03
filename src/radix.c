@@ -327,6 +327,7 @@ bfdev_radix_root_first(bfdev_radix_root_t *root, uintptr_t *offsetp)
     bfdev_radix_node_t *node;
     uintptr_t offset;
 
+    *offsetp = 0;
     node = root->node;
     level = root->level;
 
@@ -354,6 +355,7 @@ bfdev_radix_root_last(bfdev_radix_root_t *root, uintptr_t *offsetp)
     bfdev_radix_node_t *node;
     uintptr_t offset;
 
+    *offsetp = 0;
     node = root->node;
     level = root->level;
 
