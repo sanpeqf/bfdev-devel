@@ -7,7 +7,14 @@
 #define _BFDEV_ASM_GENERIC_BYTEORDER_H_
 
 #include <bfdev/config.h>
-#include <bfdev/byteorder/little-endian.h>
+
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+# include <bfdev/byteorder/little-endian.h>
+#elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+# include <bfdev/byteorder/big-endian.h>
+#else
+# error "Unknown byte order"
+#endif
 
 BFDEV_BEGIN_DECLS
 
