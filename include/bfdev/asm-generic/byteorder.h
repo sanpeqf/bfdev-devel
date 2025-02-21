@@ -58,6 +58,36 @@ BFDEV_GENERIC_BYTEORDER_ARRAY(
     uint64_t, bfdev_le64, bfdev_le64_to_cpu
 )
 
+BFDEV_GENERIC_BYTEORDER_ARRAY(
+    bfdev_cpu_to_be16_array,
+    bfdev_be16, uint16_t, bfdev_cpu_to_be16
+)
+
+BFDEV_GENERIC_BYTEORDER_ARRAY(
+    bfdev_cpu_to_be32_array,
+    bfdev_be32, uint32_t, bfdev_cpu_to_be32
+)
+
+BFDEV_GENERIC_BYTEORDER_ARRAY(
+    bfdev_cpu_to_be64_array,
+    bfdev_be64, uint64_t, bfdev_cpu_to_be64
+)
+
+BFDEV_GENERIC_BYTEORDER_ARRAY(
+    bfdev_be16_to_cpu_array,
+    uint16_t, bfdev_be16, bfdev_be16_to_cpu
+)
+
+BFDEV_GENERIC_BYTEORDER_ARRAY(
+    bfdev_be32_to_cpu_array,
+    uint32_t, bfdev_be32, bfdev_be32_to_cpu
+)
+
+BFDEV_GENERIC_BYTEORDER_ARRAY(
+    bfdev_be64_to_cpu_array,
+    uint64_t, bfdev_be64, bfdev_be64_to_cpu
+)
+
 BFDEV_END_DECLS
 
 #endif /* _BFDEV_ASM_GENERIC_BYTEORDER_H_ */
